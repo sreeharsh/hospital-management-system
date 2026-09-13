@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provident - Doctor</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f7f9fc;
+            color: #1e293b;
+        }
+
+        .top-bar {
+            height: 7px;
+            background: linear-gradient(
+                90deg,
+                #ef4444 0 25%,
+                #facc15 25% 50%,
+                #22c55e 50% 75%,
+                #3b82f6 75% 100%
+            );
+        }
+
+        header {
+            background: white;
+            padding: 20px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,.08);
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .brand span:nth-child(1) { color: #ef4444; }
+        .brand span:nth-child(2) { color: #f59e0b; }
+        .brand span:nth-child(3) { color: #16a34a; }
+        .brand span:nth-child(4) { color: #2563eb; }
+
+        .staff {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        nav {
+            background: white;
+            padding: 0 45px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        nav a {
+            display: inline-block;
+            padding: 16px 18px;
+            text-decoration: none;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #2563eb;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 25px;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.07);
+            border-top: 5px solid;
+        }
+
+        .red-card { border-color: #ef4444; }
+        .yellow-card { border-color: #facc15; }
+        .green-card { border-color: #22c55e; }
+        .blue-card { border-color: #3b82f6; }
+
+        .card h2 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 9px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .red { background: #ef4444; }
+        .yellow { background: #e5a900; }
+        .green { background: #16a34a; }
+        .blue { background: #2563eb; }
+
+        @media (max-width: 700px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            header, nav {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar"></div>
+
+    <header>
+        <div class="brand">
+            <span>PR</span><span>OVI</span><span>DEN</span><span>T</span>
+        </div>
+
+        <div class="staff">
+            Staff · Doctor
+        </div>
+    </header>
+
+    <nav>
+        <a href="#">Dashboard</a>
+        <a href="#">Patients</a>
+        <a href="#">Medical Records</a>
+        <a href="#">Prescriptions</a>
+        <a href="{% url 'logout' %}">Logout</a>
+    </nav>
+
+    <div class="container">
+
+        <h1>Doctor Dashboard</h1>
+
+        <p class="subtitle">
+            Patient consultation and medical records
+        </p>
+
+        <div class="cards">
+
+            <div class="card red-card">
+                <h2>Today's Patients</h2>
+                <p>View patients scheduled for consultation today.</p>
+                <button class="red">View Patients</button>
+            </div>
+
+            <div class="card blue-card">
+                <h2>Patient Records</h2>
+                <p>Search and view complete patient medical history.</p>
+                <button class="blue">Patient Records</button>
+            </div>
+
+            <div class="card green-card">
+                <h2>Prescriptions</h2>
+                <p>Create and review patient prescriptions.</p>
+                <button class="green">Prescriptions</button>
+            </div>
+
+            <div class="card yellow-card">
+                <h2>Lab Reports</h2>
+                <p>View laboratory tests and reports requested for patients.</p>
+                <button class="yellow">View Reports</button>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

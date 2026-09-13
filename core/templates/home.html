@@ -1,0 +1,513 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Provident hospital - Staff Login</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    #ffcf4a 0,
+                    transparent 24%
+                ),
+
+                radial-gradient(
+                    circle at 85% 15%,
+                    #4f9cff 0,
+                    transparent 25%
+                ),
+
+                radial-gradient(
+                    circle at 80% 85%,
+                    #46c98b 0,
+                    transparent 26%
+                ),
+
+                radial-gradient(
+                    circle at 15% 85%,
+                    #ff6b6b 0,
+                    transparent 25%
+                ),
+
+                #f7f9fc;
+        }
+
+
+        /* LOGIN CARD */
+
+        .login-card {
+
+            width: 510px;
+            max-width: 100%;
+
+            background: rgba(255, 255, 255, 0.94);
+
+            border-radius: 24px;
+
+            padding: 42px;
+
+            box-shadow:
+                0 25px 60px rgba(31, 41, 55, 0.18);
+
+            border: 1px solid rgba(255, 255, 255, 0.8);
+
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+
+        /* FOUR COLOR TOP BAR */
+
+        .color-bar {
+
+            position: absolute;
+
+            top: 0;
+            left: 0;
+
+            width: 100%;
+            height: 6px;
+
+            background: linear-gradient(
+                90deg,
+
+                #ef4444 0 25%,
+
+                #facc15 25% 50%,
+
+                #22c55e 50% 75%,
+
+                #3b82f6 75% 100%
+            );
+        }
+
+
+        /* LOGO */
+
+        .logo {
+    width: 90px;
+    height: 90px;
+    margin: 5px auto 12px;
+}
+
+.logo img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+}
+
+
+        /* HOSPITAL NAME */
+
+        .hospital-name {
+
+            text-align: center;
+
+            font-size: 27px;
+
+            font-weight: 800;
+
+            letter-spacing: 1px;
+
+            color: #172554;
+        }
+
+
+        .hospital-name span:nth-child(1) {
+            color: #ef4444;
+        }
+
+        .hospital-name span:nth-child(2) {
+            color: #f59e0b;
+        }
+
+        .hospital-name span:nth-child(3) {
+            color: #16a34a;
+        }
+
+        .hospital-name span:nth-child(4) {
+            color: #2563eb;
+        }
+        .hospital-name span:nth-child(5){
+            color: #000000;
+        }
+
+
+        /* SUBTITLE */
+
+        .subtitle {
+
+            text-align: center;
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            margin-top: 7px;
+
+            margin-bottom: 32px;
+        }
+
+
+        /* LOGIN TITLE */
+
+        .login-title {
+            width: 80px;
+            height: 80px;
+
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+
+            color: #f5f6f9;
+
+            font-size: 22px;
+
+            margin-bottom: 25px;
+            border-radius: 50%;
+            background: #ef4444;
+            margin: 5px auto 18px;
+            display: flex;
+        }
+
+
+        /* INPUTS */
+
+        .input-group {
+
+            margin-bottom: 19px;
+        }
+
+
+        label {
+
+            display: block;
+
+            color: #334155;
+
+            font-size: 14px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 14px 15px;
+
+            border: 2px solid #e2e8f0;
+
+            border-radius: 11px;
+
+            outline: none;
+
+            font-size: 15px;
+
+            background: #f8fafc;
+
+            transition: 0.2s;
+        }
+
+
+        input:focus {
+
+            background: white;
+
+            border-color: #3b82f6;
+
+            box-shadow:
+                0 0 0 4px rgba(59, 130, 246, 0.12);
+        }
+
+
+        /* LOGIN BUTTON */
+
+        .login-button {
+
+            width: 100%;
+
+            padding: 14px;
+
+            margin-top: 7px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            color: white;
+
+            font-size: 16px;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ef4444,
+                    #f59e0b,
+                    #22c55e,
+                    #3b82f6
+                );
+
+            background-size: 200% 100%;
+
+            transition: 0.3s;
+        }
+
+
+        .login-button:hover {
+
+            background-position: 100% 0;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px rgba(59, 130, 246, 0.25); 
+        }
+
+
+        /* USER TYPES */
+
+        .access-info { 
+
+            display: flex;
+
+            justify-content: center;
+
+            gap: 14px;
+
+            margin-top: 25px;
+
+            font-size: 12px;
+
+            color: #64748b;
+        }
+
+
+        .dot {
+
+            width: 8px;
+            height: 8px;
+
+            display: inline-block;
+
+            border-radius: 50%;
+
+            margin-right: 5px;
+        }
+
+
+        .red {
+            background: #ef4444;
+        }
+
+        .yellow {
+            background: #facc15;
+        }
+
+        .green {
+            background: #22c55e;
+        }
+
+        .blue {
+            background: #3b82f6;
+        }
+
+
+        /* FOOTER */
+
+        .footer {
+
+            text-align: center;
+
+            margin-top: 22px;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 480px) {
+
+            .login-card {
+
+                padding: 35px 25px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="login-card">
+
+
+        <!-- COLOR BAR -->
+
+        <div class="color-bar"></div>
+
+
+        <!-- LOGO -->
+        <div class="logo">
+    <img src="{% static 'cad.png' %}" alt="Provident Hospital Medical Logo">
+</div>
+
+        <!-- HOSPITAL NAME -->
+
+        <div class="hospital-name">
+
+            <span>PR</span><span>OVI</span><span>DEN</span><span>T</span>
+            <span> HOSPITAL</span>
+
+        </div>
+
+
+        <div class="subtitle">
+
+            Hospital Management System
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div class="login-title">
+
+            STAFF LOGIN
+
+        </div>
+
+
+        <form method="post" action="{% url 'login' %}">
+
+
+            
+            {% csrf_token %}
+
+
+            <div class="input-group">
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-button">
+
+                LOGIN
+
+            </button>
+
+
+        </form>
+
+
+        <!-- USER TYPES -->
+
+        <div class="access-info">
+
+            <span>
+                <i class="dot red"></i>
+                Reception
+            </span>
+
+            <span>
+                <i class="dot yellow"></i>
+                Doctor
+            </span>
+
+            <span>
+                <i class="dot green"></i>
+                Lab
+            </span>
+
+            <span>
+                <i class="dot blue"></i>
+                Pharmacy
+            </span>
+
+        </div>
+
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+
+            Secure staff access · © 2026 Provident Hospital
+
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

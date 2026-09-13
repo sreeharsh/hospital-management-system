@@ -1,0 +1,833 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Provident - Reception</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f7f9fc;
+            color: #1e293b;
+        }
+
+        .top-bar {
+            height: 7px;
+            background: linear-gradient(
+                90deg,
+                #ef4444 0 25%,
+                #facc15 25% 50%,
+                #22c55e 50% 75%,
+                #3b82f6 75% 100%
+            );
+        }
+
+        header {
+            background: white;
+            padding: 20px 45px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,.08);
+            text-align: center;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-align: center;
+            width: 100%;
+            
+        }
+
+        .brand span:nth-child(1) { color: #ef4444; }
+        .brand span:nth-child(2) { color: #f59e0b; }
+        .brand span:nth-child(3) { color: #16a34a; }
+        .brand span:nth-child(4) { color: #2563eb; }
+
+        .staff {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 0 45px;
+            border-bottom: 1px solid #e2e8f0;
+            white-space: nowrap;
+        }
+        .user-name {
+            margin-left: auto;
+            margin-right: 20px;
+            font-weight: bold;
+            color: #173b63;
+
+}
+
+        nav a {
+            display: inline-block;
+            padding: 16px 18px;
+            text-decoration: none;
+            color: #574769;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #2563eb;
+        }
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 1100px;
+            border: 1px solid #86efac;
+            font-weight: 600;
+            transition: opacity 0.5s ease;
+            }
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 25px;
+            
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        .cards {
+            display: grid;
+            justify-content: center;
+            width: 100%;
+
+        }
+
+        .card {
+                    background: rgb(237, 232, 232);
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.07);
+            border: 1px solid #000000;
+
+            width: 100%;
+            min-height: 500px;
+
+            display: flex;
+            gap: 30px;
+            }
+        .patient-list {
+            flex: 2;
+            min-width: 0;
+        }
+     
+
+
+
+        
+
+        .hospital-messages {
+            flex: 1.5;
+        }
+
+        .patients-scroll {
+            height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .patient-list h2 {
+             margin-bottom: 15px;
+        }
+
+
+
+        .patient-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            cursor: pointer;
+        }
+
+        .patient-item:hover {
+            background: #f8fafc;
+        }
+        .patient-item.selected {
+            background: #dcfce7;
+            border-color: #16a34a;
+        }
+
+        .patient-item span {
+            color: #64748b;
+            font-size: 13px;
+        }
+        .add-patient {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        .add-patient form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .add-patient input,
+        .add-patient select {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .add-patient button {
+            margin-top: 10px;
+            padding: 11px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .patient-popup {
+            display: none;
+            position: fixed;
+            inset: 0;
+
+            background: rgba(0, 0, 0, 0.4);
+
+            justify-content: center;
+            align-items: center;
+
+            z-index: 1000;
+        }
+
+        .patient-popup-content {
+            background: white;
+            width: 450px;
+            max-width: 90%;
+
+            padding: 30px;
+            border-radius: 16px;
+
+            position: relative;
+
+            box-shadow: 0 10px 40px rgba(0,0,0,.2);
+        }
+                .hospital-messages {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .hospital-messages h2 {
+            margin-bottom: 20px;
+        }
+
+        .close-popup {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+
+            font-size: 28px;
+            cursor: pointer;
+
+            color: #64748b;
+        }
+
+        .close-popup:hover {
+            color: #000;
+        }
+       
+        .card h2 {
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #64748b;
+            margin-bottom: 20px;
+        }
+
+        .third-card{
+            background-color: white;
+            width: 35%;
+            height: auto;
+            border-radius: 10px;
+            padding: 10px;
+            
+        }
+
+        button {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 9px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .red { background: #ef4444; }
+        .yellow { background: #e5a900; }
+        .green { background: #16a34a; }
+        .blue { background: #2563eb; }
+
+        @media (max-width: 700px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            header, nav {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+
+        .availability-card {
+            background: white;
+            padding: 28px;
+            margin-top: 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.07);
+            border: 1px solid #e2e8f0;
+        }
+
+        .availability-card h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .availability-card table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .availability-card th,
+        .availability-card td {
+            padding: 14px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .availability-card th {
+            color: #475569;
+            font-size: 14px;
+        }
+
+        .availability-card td {
+            font-size: 14px;
+        }
+        #slots-container {
+            margin-top: 25px;
+        }
+
+        #slots-container h3 {
+            margin-bottom: 15px;
+        }
+
+        .slots {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .slot {
+            padding: 14px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .available {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .booked {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        @media (max-width: 700px) {
+            .slots {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .booking-card {
+            min-height: auto;
+            display: block;
+        }
+
+        .booking-summary {
+            margin-top: 20px;
+            padding: 18px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .booking-summary p {
+            margin: 8px 0;
+        }
+
+        .booking-card .confirm-button {
+            margin-top: 18px;
+            padding: 12px 24px;
+            width: auto;
+            height: auto;
+        }
+        
+
+    </style>
+</head>
+
+<body>
+
+    <div class="top-bar"></div>
+
+    <header>
+        <div class="brand">
+            <span>PR</span><span>OVI</span><span>DEN</span><span>T</span> <sp an> HOSPITAL</span>
+        </div>
+
+        <div class="staff">
+            Staff · Reception
+        </div>
+    </header>
+
+    <nav>
+        <a href="{% url 'home' %}">Dashboard</a>
+        <a href="#">Patients</a>
+        <a href="#">Appointments</a>
+        <div class="user-name" >
+        welcome.  {{ request.user.username }} 
+        </div>
+        <a href="{% url 'logout' %}">Logout</a>
+        
+    </nav>
+    {% if messages %}
+    {% for message in messages %}
+        <div class="success-message">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+    
+
+    <div class="container">
+
+        <h1>Reception Dashboard</h1>
+
+        <p class="subtitle">
+            Patient registration and appointment management
+        </p>
+
+       
+
+        <div class="card">
+
+            <div class="patient-list">
+
+                <h2>Patients</h2>
+
+                <div class="patients-scroll">
+
+                    {% for patient in patients %}
+
+                        <div class="patient-item"
+                            data-patient-id="{{ patient.id }}"
+                            onclick="showPatient(this.dataset.patientId)">
+
+                            <strong>
+                                #{{ patient.id }} {{ patient.name }}
+                            </strong>
+
+                            <span>
+                                {{ patient.age }} years · {{ patient.gender }}
+                            </span>
+
+                            <span>
+                                📞 {{ patient.phone }}
+                            </span>
+
+                        </div>
+
+                    {% empty %}
+
+                        <p>No patients registered yet.</p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+        
+
+    
+        
+    
+            <div class="add-patient">
+
+                <h2>Add Patient</h2>
+
+                <form method="POST" action="{% url 'add_patient' %}">
+                    {% csrf_token %}
+
+                    <label>Patient Name</label>
+                    <input type="text" name="name" required>
+
+                    <label>Age</label>
+                    <input type="number" name="age" required>
+
+                    <label>Phone</label>
+                    <input type="tel" name="phone" required>
+
+                    <label>Gender</label>
+                    <select name="gender" required>
+                        <option value="">Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <button type="submit">Save Patient</button>
+                </form>
+
+            </div>
+
+
+
+            <div class = "hospital-messages"> 📢 Hospital messages : </div>
+
+        </div>
+        
+
+        <div class="availability-card">
+
+            <h2>Doctor Availability (Today)</h2>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Doctor</th>
+                        <th>Department</th>
+                        <th>Total Slots</th>
+                        <th>Booked</th>
+                        <th>Remaining</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in doctor_availability %}
+                    <tr>
+                        <td>{{ item.doctor.name }}</td>
+                        <td>{{ item.doctor.department }}</td>
+                        <td>{{ item.total_slots }}</td>
+                        <td>{{ item.booked }}</td>
+                        <td>{{ item.remaining }}</td>
+                        <td>
+                        <button
+                            type="button"
+                            class="blue"
+                            data-doctor-id="{{ item.doctor.id }}"
+                            onclick="showSlots(this)">
+                            View Slots
+                        </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">
+                            No doctors are scheduled today.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div id="slots-container"></div>
+
+        </div>
+
+        <div class="card booking-card">
+            <h2>Book Appointment</h2>
+
+            <div id="booking-summary" class="booking-summary">
+                <p>Please select a patient and an available slot.</p>
+            </div>
+
+            <button
+                type="button"
+                class="blue confirm-button"
+                onclick="bookAppointment()">
+                Confirm Appointment
+            </button>
+        </div>
+
+    </div>
+
+ 
+
+
+
+
+<div id="patientPopup" class="patient-popup">
+
+    <div class="patient-popup-content">
+
+        <span class="close-popup" onclick="closePatient()">
+            &times;
+        </span>
+
+        <h2>Patient Details</h2>
+
+        <div id="patientDetails">
+            <!-- Patient information will appear here -->
+        </div>
+
+    </div>
+
+</div>
+<script>
+    let selectedPatientId = null;
+    let selectedDoctor = null;
+    let selectedDoctorId = null;
+    let selectedTime = null;
+    let currentDoctorButton = null;
+    function showPatient(patientId) {
+        selectedPatientId = patientId;
+    document.querySelectorAll(".patient-item").forEach(item => {
+        item.classList.remove("selected");
+    });
+
+    document
+        .querySelector(`.patient-item[data-patient-id="${patientId}"]`)
+        .classList.add("selected");
+    fetch(`/patient/${patientId}/`)
+        .then(response => response.json())
+        .then(patient => {
+
+            document.getElementById("patientDetails").innerHTML = `
+                
+                <p><strong>Patient ID:</strong> #${patient.id}</p>
+
+                <p><strong>Name:</strong> ${patient.name}</p>
+
+                <p><strong>Age:</strong> ${patient.age} years</p>
+
+                <p><strong>Gender:</strong> ${patient.gender}</p>
+
+                <p><strong>Phone:</strong> ${patient.phone}</p>
+
+            `;
+
+            document.getElementById("patientPopup").style.display = "flex";
+        });
+}
+
+
+function closePatient() {
+
+    document.getElementById("patientPopup").style.display = "none";
+
+}
+
+
+    setTimeout(function() {
+        const message = document.querySelector(".success-message");
+
+        if (message) {
+            message.style.opacity = "0";
+
+            setTimeout(function() {
+                message.remove();
+            }, 500);
+        }
+    }, 3000);
+
+
+function showSlots(button) {
+   
+    currentDoctorButton = button;
+
+    const doctorId = button.dataset.doctorId;
+
+    fetch(`/doctor-slots/${doctorId}/`)
+        .then(response => response.json())
+        .then(data => {
+
+            const container = document.getElementById("slots-container");
+
+            container.innerHTML = `
+                <h3>${data.doctor}'s Slots</h3>
+
+                <div class="slots">
+
+                    ${data.all_slots.map(slot => {
+
+                        if (data.available_slots.includes(slot)) {
+
+                            return `
+                                <button
+                                    type="button"
+                                    class="slot available"
+                                    onclick="selectSlot('${data.doctor}', '${slot}', '${doctorId}')">
+                                    ${slot}
+                                    <br>
+                                    Available
+                                </button>
+                            `;
+
+                        } else {
+
+                            return `
+                                <div class="slot booked">
+                                    ${slot}
+                                    <br>
+                                    Booked
+                                </div>
+                            `;
+
+                        }
+
+                    }).join("")}
+
+                </div>
+            `;
+        });
+}
+function selectSlot(doctor, time, doctorId) {
+
+    // Make sure a patient has been selected
+    if (!selectedPatientId) {
+        alert("Please select a patient first.");
+        return;
+    }
+
+    // Store the selected doctor and time
+    selectedDoctor = doctor;
+    selectedTime = time;
+    selectedDoctorId = doctorId;
+
+    document.getElementById("booking-summary").innerHTML = `
+        <p><strong>Patient ID:</strong> ${selectedPatientId}</p>
+        <p><strong>Doctor:</strong> ${selectedDoctor}</p>
+        <p><strong>Time:</strong> ${selectedTime}</p>
+    `;
+}
+function bookAppointment() {
+
+    if (!selectedPatientId) {
+        alert("Please select a patient first.");
+        return;
+    }
+
+    if (!selectedDoctorId || !selectedTime) {
+        alert("Please select an available slot first.");
+        return;
+    }
+
+    fetch("/book-appointment/", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCookie("csrftoken"),
+            "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body:
+            "patient_id=" + encodeURIComponent(selectedPatientId) +
+            "&doctor_id=" + encodeURIComponent(selectedDoctorId) +
+            "&time=" + encodeURIComponent(selectedTime)
+    })
+    .then(response => response.json())
+    .then(data => {
+
+        if (data.success) {
+
+            alert(data.message);
+            if (currentDoctorButton) {
+                 showSlots(currentDoctorButton);
+                }
+
+            selectedDoctor = null;
+            selectedDoctorId = null;
+            selectedTime = null;
+
+            document.getElementById("booking-summary").innerHTML = `
+                <p>Appointment booked successfully.</p>
+            `;
+
+        } else {
+
+            alert(data.message);
+
+        }
+
+    })
+    .catch(error => {
+
+        console.error(error);
+        alert("Something went wrong while booking the appointment.");
+
+    });
+}
+function getCookie(name) {
+
+    let cookieValue = null;
+
+    if (document.cookie && document.cookie !== "") {
+
+        const cookies = document.cookie.split(";");
+
+        for (let cookie of cookies) {
+
+            cookie = cookie.trim();
+
+            if (cookie.startsWith(name + "=")) {
+
+                cookieValue = decodeURIComponent(
+                    cookie.substring(name.length + 1)
+                );
+
+                break;
+            }
+        }
+    }
+
+    return cookieValue;
+}
+</script>
+</body>
+</html>
+
