@@ -162,6 +162,23 @@
              margin-bottom: 15px;
         }
 
+        .patient-search {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+
+            font-size: 15px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        .patient-search:focus {
+            border-color: #2563eb;
+             box-shadow: 0 0 0 3px #dbeafe;
+        }
+
 
 
         .patient-item {
@@ -190,6 +207,16 @@
             color: #64748b;
             font-size: 13px;
         }
+
+        .patient-details {
+            display: none;
+            margin-top: 15px;
+            padding: 18px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
         .add-patient {
             background: white;
             padding: 25px;
@@ -460,15 +487,22 @@
 
             <div class="patient-list">
 
+                <h3>Search</h3>
+                <input type="text" id="patientSearch" placeholder="Search patients..." class="patient-search">
+
                 <h2>Patients</h2>
 
                 <div class="patients-scroll">
-
                     {% for patient in patients %}
 
                         <div class="patient-item"
                             data-patient-id="{{ patient.id }}"
-                            onclick="showPatient(this.dataset.patientId)">
+                            data-patient-id="{{ patient.id }}"
+                            data-name="{{ patient.name }}"
+                            data-age="{{ patient.age }}"
+                            data-gender="{{ patient.gender }}"
+                            data-phone="{{ patient.phone }}"
+                            onclick="showPatient(this)">
 
                             <strong>
                                 #{{ patient.id }} {{ patient.name }}
@@ -490,7 +524,14 @@
 
                     {% endfor %}
 
+                      <div id="patientDetails" class="patient-details">
+                <!-- JavaScript will put the selected patient's details here -->
+                    </div>
+
                 </div>
+
+                  
+                
 
             </div>
         
@@ -537,6 +578,8 @@
         <div class="availability-card">
 
             <h2>Doctor Availability (Today)</h2>
+            <h3 id="selected-patient-heading"></h3>
+
 
             <table>
                 <thead>
@@ -622,41 +665,110 @@
 </div>
 <script>
     let selectedPatientId = null;
+    let selectedPatientName = null;
     let selectedDoctor = null;
     let selectedDoctorId = null;
     let selectedTime = null;
     let currentDoctorButton = null;
-    function showPatient(patientId) {
-        selectedPatientId = patientId;
-    document.querySelectorAll(".patient-item").forEach(item => {
-        item.classList.remove("selected");
+
+    const searchInput =
+    document.getElementById("patientSearch");
+
+    searchInput.addEventListener("focus", function() {
+    selectedPatientId = null;
+    selectedPatientName = null;
+
+    document.getElementById("patientDetails").style.display = "none";
+
+    document.querySelectorAll(".patient-item")
+        .forEach(item => {
+            item.classList.remove("selected");
+        });
     });
 
+    searchInput.addEventListener("input", function() {
+        const searchText =
+        searchInput.value.toLowerCase();
+        document.querySelectorAll(".patient-item")
+        .forEach(item => {
+        const patientText = item.innerText.toLowerCase();
+        if (patientText.includes(searchText)) {
+                item.style.display = "";} 
+            else {
+                item.style.display = "none";
+                }
+
+                        });
+        });
+
+    function showPatient(patientElement) {
+    
+        selectedPatientId = patientElement.dataset.patientId;
+
+        
+    
+        const patientDetails = document.getElementById("patientDetails");
+
+    
+        patientElement.insertAdjacentElement(
+        "afterend",
+        patientDetails);
+
+    
+        document.querySelectorAll(".patient-item").forEach(item => {
+        item.classList.remove("selected");
+        });
+
     document
-        .querySelector(`.patient-item[data-patient-id="${patientId}"]`)
+        .querySelector(`.patient-item[data-patient-id="${selectedPatientId}"]`)
         .classList.add("selected");
-    fetch(`/patient/${patientId}/`)
+    fetch(`/patient/${selectedPatientId}/`)
         .then(response => response.json())
         .then(patient => {
+                selectedPatientName = patient.name;
+                const patientHeading = document.getElementById("selected-patient-heading");
 
+                if (patientHeading) {
+                    patientHeading.innerText = `Patient: ${selectedPatientName}`;
+                }
             document.getElementById("patientDetails").innerHTML = `
                 
-                <p><strong>Patient ID:</strong> #${patient.id}</p>
+                <p><strong>Patient ID:</strong> #${selectedPatientId}</p>
 
-                <p><strong>Name:</strong> ${patient.name}</p>
+                <p><strong>Name:</strong> ${patientElement.dataset.name}</p>
 
-                <p><strong>Age:</strong> ${patient.age} years</p>
+                <p><strong>Age:</strong> ${patientElement.dataset.age} years</p>
 
-                <p><strong>Gender:</strong> ${patient.gender}</p>
+                <p><strong>Gender:</strong> ${patientElement.dataset.gender}</p>
 
-                <p><strong>Phone:</strong> ${patient.phone}</p>
+                <p><strong>Phone:</strong> ${patientElement.dataset.phone}</p>
+
+                <button
+                    type="button"
+                    class="close-patient"
+                    onclick="closePatientDetails()">
+                    Close
+                </button>
+                
 
             `;
+            
 
-            document.getElementById("patientPopup").style.display = "flex";
+            document.getElementById("patientDetails").style.display = "block";
+            
         });
 }
 
+function closePatientDetails() {
+
+    selectedPatientId = null;
+
+    document.getElementById("patientDetails").style.display = "none";
+
+    document.querySelectorAll(".patient-item").forEach(item => {
+        item.classList.remove("selected");
+    });
+} 
 
 function closePatient() {
 
@@ -665,17 +777,6 @@ function closePatient() {
 }
 
 
-    setTimeout(function() {
-        const message = document.querySelector(".success-message");
-
-        if (message) {
-            message.style.opacity = "0";
-
-            setTimeout(function() {
-                message.remove();
-            }, 500);
-        }
-    }, 3000);
 
 
 function showSlots(button) {
@@ -691,6 +792,7 @@ function showSlots(button) {
             const container = document.getElementById("slots-container");
 
             container.innerHTML = `
+                
                 <h3>${data.doctor}'s Slots</h3>
 
                 <div class="slots">
