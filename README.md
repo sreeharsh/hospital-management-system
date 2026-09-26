@@ -13,6 +13,10 @@ The system currently focuses on the reception side of the hospital,
 including patient registration, patient selection, doctor availability,
 appointment-slot generation, and appointment booking.
 
+## Dashboard Preview
+
+![Hospital Management System Dashboard](dashboard.png)
+
 ## Features
 
 ### Patient Management
